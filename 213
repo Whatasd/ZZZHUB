@@ -1,0 +1,154 @@
+local DiscordLib =
+    loadstring(game:HttpGet "https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")()
+
+local win = DiscordLib:Window("Random")
+
+local serv = win:Server("Main", "")
+
+--channels
+local geode = serv:Channel("Anime Clicker")
+
+singlehatch = false
+function single()
+    spawn(
+        function()
+            if samt == "Single" then
+                while singlehatch == true do
+                    task.wait()
+                    local args = {
+                        [1] = segg,
+                        [2] = false,
+                        [3] = false
+                    }
+
+                    game:GetService("ReplicatedStorage").Remotes.OpenEgg:InvokeServer(unpack(args))
+                    if not singlehatch then
+                        break
+                    end
+                end
+            end
+        end
+    )
+end
+triplehatch = false
+function triple()
+    spawn(
+        function()
+            if samt == "Triple" then
+                while triplehatch == true do
+                    task.wait()
+                    local args = {
+                        [1] = segg,
+                        [2] = true,
+                        [3] = false
+                    }
+
+                    game:GetService("ReplicatedStorage").Remotes.OpenEgg:InvokeServer(unpack(args))
+                    if not triplehatch then
+                        break
+                    end
+                end
+            end
+        end
+    )
+end
+
+--geode
+geode:Toggle(
+    "Auto Clicker",
+    false,
+    function(bool)
+        getgenv().AutoClicker = true
+        while AutoClicker do
+            wait()
+            if bool then
+                wait()
+                local args = {
+                    [1] = false,
+                    [2] = false,
+                    [3] = "Clicker!"
+                }
+
+                game:GetService("ReplicatedStorage").Remotes.ClickRemote:FireServer(unpack(args))
+            else
+                getgenv().AutoClicker = false
+            end
+        end
+    end
+)
+
+eggs = {}
+for i, v in next, game:GetService("Workspace").Eggs:GetChildren() do
+    table.insert(eggs, v.Name)
+end
+local eggdropdown =
+    geode:Dropdown(
+    "Select Crystal To Hatch",
+    eggs,
+    function(selected)
+        segg = selected
+    end
+)
+local amtdropdown =
+    geode:Dropdown(
+    "Select Amount To Hatch",
+    {"Single", "Triple"},
+    function(selected)
+        samt = selected
+    end
+)
+geode:Toggle(
+    "Auto Hatch",
+    false,
+    function(x)
+        singlehatch = x
+        if singlehatch then
+            single()
+        end
+        triplehatch = x
+        if triplehatch then
+            triple()
+        end
+    end
+)
+geode:Toggle(
+    "Auto Rebirth",
+    false,
+    function(bool)
+        getgenv().AutoRebirth = true
+        while AutoRebirth do
+            wait()
+            if bool then
+                wait()
+                local args = {
+                    [1] = 1
+                }
+                
+                game:GetService("ReplicatedStorage").Remotes.RebirthRemote:FireServer(unpack(args))
+            else
+                getgenv().AutoRebirth = false
+            end
+        end
+    end
+)
+
+local wsslider =
+    geode:Slider(
+    "WalkSpeed",
+    16,
+    1000,
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
+    function(t)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = t
+    end
+)
+local jpslider =
+    geode:Slider(
+    "JumpPower",
+    16,
+    1000,
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower,
+    function(t)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = t
+    end
+)
